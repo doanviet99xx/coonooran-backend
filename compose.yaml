@@ -1,0 +1,24 @@
+version: '1.0'
+services:
+  server:
+    build:
+      args:
+        user: conooran_dev
+        uid: 1000
+      context: .
+    environment:
+      NODE_ENV: production
+    ports:
+      - 3000:3000
+    depends_on:
+      database:
+        condition: service_healthy
+  database:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DATABASE_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+    ports:
+      - 27017:27017
+
